@@ -54,7 +54,7 @@ resource "aws_security_group" "ALL-server-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   ingress {
     description = "SMTP"
     from_port   = 25
@@ -62,7 +62,7 @@ resource "aws_security_group" "ALL-server-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-   ingress {
+  ingress {
     description = "Custom"
     from_port   = 27017
     to_port     = 27017
@@ -83,13 +83,13 @@ resource "aws_security_group" "ALL-server-sg" {
   }
 }
 
-resource "aws_instance" "Monitoring" {
+resource "aws_instance" "monitoring" {
 
   ami             = var.OS-east-1
   instance_type   = "t2.medium"
   security_groups = [aws_security_group.ALL-server-sg.name]
-  key_name        = "key"
-  user_data       = templatefile("Monitoring,sh", {})
+  key_name        = "Mkey"
+  user_data       = templatefile("Monitoring.sh", {})
 
   root_block_device {
     volume_size = 20
@@ -105,12 +105,12 @@ resource "aws_instance" "Monitoring" {
 }
 
 
-resource "aws_instance" "VM" {
+resource "aws_instance" "vm" {
 
   ami             = var.OS-east-1
   instance_type   = "t2.medium"
   security_groups = [aws_security_group.ALL-server-sg.name]
-  key_name        = "key"
+  key_name        = "Mkey"
   user_data       = templatefile("VM.sh", {})
 
   root_block_device {
